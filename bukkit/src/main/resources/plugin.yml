@@ -1,5 +1,5 @@
 # Name of the plugin
-name: Chiara
+name: Alexandra
 
 # Current version delivered via maven
 version: ${project.version}
