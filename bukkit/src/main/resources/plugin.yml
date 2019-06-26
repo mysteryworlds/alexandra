@@ -1,0 +1,27 @@
+# Name of the plugin
+name: Chiara
+
+# Current version delivered via maven
+version: ${project.version}
+
+# The main class of the plugin
+main: com.mysteryworlds.alexandra.bukkit.AlexandraPlugin
+
+# Human readable description
+description: Bukkit chat management suite. Provides Vault Chat implementation and various common chat functionalities, like private messages, channels & more
+
+# Implemented against api version delivered by maven
+api-version: "1.14"
+
+# Author
+author: Felix Klauke <info@felix-klauke.com>
+
+# Soft dependencies
+softdepend:
+  - Vault
+
+  # The logger prefix
+prefix: Alexandra
+
+# My homepage
+website: https://www.felix-klauke.com
