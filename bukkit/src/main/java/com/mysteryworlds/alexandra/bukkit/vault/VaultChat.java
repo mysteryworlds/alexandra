@@ -1,18 +1,24 @@
 package com.mysteryworlds.alexandra.bukkit.vault;
 
+import com.mysteryworlds.alexandra.bukkit.service.ChatService;
+import com.mysteryworlds.alexandra.bukkit.utils.BukkitUtils;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.plugin.Plugin;
+
+import java.util.UUID;
 
 public class VaultChat extends Chat {
 
     private final Plugin plugin;
     private final Permission permission;
+    private final ChatService chatService;
 
-    public VaultChat(Plugin plugin, Permission permission) {
+    public VaultChat(Plugin plugin, Permission permission, ChatService chatService) {
         super(permission);
         this.plugin = plugin;
         this.permission = permission;
+        this.chatService = chatService;
     }
 
     @Override
@@ -29,46 +35,59 @@ public class VaultChat extends Chat {
 
     @Override
     public String getPlayerPrefix(String world, String player) {
-        return null;
+
+        UUID uniqueId = BukkitUtils.getUniqueId(player);
+        return chatService.getUserPrefix(uniqueId);
     }
 
     @Override
     public void setPlayerPrefix(String world, String player, String prefix) {
 
+        UUID uniqueId = BukkitUtils.getUniqueId(player);
+        chatService.setUserPrefix(uniqueId, prefix);
     }
 
     @Override
     public String getPlayerSuffix(String world, String player) {
-        return null;
+
+        UUID uniqueId = BukkitUtils.getUniqueId(player);
+        return chatService.getUserSuffix(uniqueId);
     }
 
     @Override
     public void setPlayerSuffix(String world, String player, String suffix) {
 
+        UUID uniqueId = BukkitUtils.getUniqueId(player);
+        chatService.setUserSuffix(uniqueId, suffix);
     }
 
     @Override
     public String getGroupPrefix(String world, String group) {
-        return null;
+
+        return chatService.getGroupPrefix(group);
     }
 
     @Override
     public void setGroupPrefix(String world, String group, String prefix) {
 
+        chatService.setGroupPrefix(group, prefix);
     }
 
     @Override
     public String getGroupSuffix(String world, String group) {
-        return null;
+
+        return chatService.getGroupSuffix(group);
     }
 
     @Override
     public void setGroupSuffix(String world, String group, String suffix) {
 
+        chatService.setGroupSuffix(group, suffix);
     }
 
     @Override
     public int getPlayerInfoInteger(String world, String player, String node, int defaultValue) {
+
         return 0;
     }
 

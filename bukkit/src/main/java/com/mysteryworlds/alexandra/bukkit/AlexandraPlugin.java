@@ -1,5 +1,7 @@
 package com.mysteryworlds.alexandra.bukkit;
 
+import com.mysteryworlds.alexandra.bukkit.service.ChatService;
+import com.mysteryworlds.alexandra.bukkit.service.ChatServiceImpl;
 import com.mysteryworlds.alexandra.bukkit.vault.VaultChat;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -15,18 +17,22 @@ public class AlexandraPlugin extends JavaPlugin {
 
         ServicesManager servicesManager = getServer().getServicesManager();
 
+        // Construct service
+        ChatService chatService = new ChatServiceImpl(null);
+
         // Get Permission service
         RegisteredServiceProvider<Permission> registration = servicesManager.getRegistration(Permission.class);
         if (registration == null) {
             getLogger().severe("Couldn't find permissions. Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         Permission permission = registration.getProvider();
 
         // Register Chat Service
         getLogger().info("Hooking into vault.");
-        Chat chat = new VaultChat(this, permission);
+        Chat chat = new VaultChat(this, permission, chatService);
         servicesManager.register(Chat.class, chat, this, ServicePriority.Highest);
     }
 
