@@ -13,13 +13,30 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class AlexandraPlugin extends JavaPlugin {
 
+    private ServicesManager servicesManager;
+    private ChatService chatService;
+
     @Override
     public void onEnable() {
 
-        ServicesManager servicesManager = getServer().getServicesManager();
+        servicesManager = getServer().getServicesManager();
 
         // Construct service
-        ChatService chatService = new ChatServiceImpl(null);
+        chatService = new ChatServiceImpl(null);
+
+        // Register Chat Service
+        setupServices();
+
+        // Setup metrics
+        setupMetrics();
+    }
+
+    @Override
+    public void onDisable() {
+
+    }
+
+    private void setupServices() {
 
         // Get Permission service
         RegisteredServiceProvider<Permission> registration = servicesManager
@@ -32,18 +49,9 @@ public class AlexandraPlugin extends JavaPlugin {
 
         Permission permission = registration.getProvider();
 
-        // Register Chat Service
         getLogger().info("Hooking into vault.");
         Chat chat = new VaultChat(this, permission, chatService);
         servicesManager.register(Chat.class, chat, this, ServicePriority.Highest);
-
-        // Setup metrics
-        setupMetrics();
-    }
-
-    @Override
-    public void onDisable() {
-
     }
 
     private void setupMetrics() {
